@@ -1,0 +1,78 @@
+﻿@model Advanced.Models.ReportModel
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<div class="container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="col-md-6">
+        <h3>By Class</h3>
+        <select id="selectClass" class="form-control" style="width: 150px;">
+            <option>--Choose Class--</option>
+            @foreach (var item in Model.Lophocs)
+            {
+                <option id="class_id" value="@item.class_id" @(ViewBag.currentClass == item.class_id ? "selected" : "")>@item.class_name</option>
+            }
+        </select>
+        <div>
+            <canvas id="ChartMarksByClass"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h3>Total</h3>
+        <div>
+            <canvas id="ChartMarksTotal"></canvas>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/Scripts/analytics.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#selectClass').on('change', function () {
+            var class_id = $(this).val();
+            var canvasId = (class_id != 0) ? 'ChartMarksByClass' : 'ChartMarksTotal';
+
+            $.get((class_id != 0) ? '/Teacher/GetReportByClass?class_id=' + class_id : '/Teacher/GetReport', function (resp) {
+                drawChart(canvasId, resp);
+            });
+        });
+    });
+
+    function drawChart(canvasId, data) {
+        var ctx = document.getElementById(canvasId).getContext('2d');
+
+        // Phá hủy biểu đồ cũ trước khi vẽ biểu đồ mới
+        if (window.myBarCharts && window.myBarCharts[canvasId]) {
+            window.myBarCharts[canvasId].destroy();
+        }
+
+        var labels = data.map(item => item.DiemTK);
+        var marks = data.map(item => item.Total);
+
+        var barChartData = {
+            labels: labels,
+            datasets: [{
+                label: 'Marks',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                data: marks
+            }]
+        };
+
+        // Vẽ biểu đồ mới
+        window.myBarCharts = window.myBarCharts || {};
+        window.myBarCharts[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData
+        });
+    }
+
+    // Vẽ biểu đồ tổng số điểm mặc định khi trang được load
+    $.get('/Teacher/GetReport', function (resp) {
+        drawChart('ChartMarksTotal', resp);
+    });
+
+</script>
+}

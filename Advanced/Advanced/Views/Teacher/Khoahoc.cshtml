@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNet.Identity
+@model List<Advanced.Models.Khoahoc>
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Views/Shared/TeacherSideBar.cshtml";
+}
+<!-- Instructor Dashboard -->
+<div class="col-xl-9 col-lg-8 col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="settings-widget">
+                <div class="settings-inner-blk p-0">
+                    <div class="sell-course-head comman-space">
+                        <h3>Courses</h3>
+                        <p>Manage your courses and its update like live, draft and insight.</p>
+                    </div>
+                    <div class="comman-space pb-0">
+                        <div class="instruct-search-blk">
+                            <div class="show-filter choose-search-blk">
+                                <form action="@Url.Action("Khoahoc", "Teacher")" method="get">
+                                    <div class="row gx-2 align-items-center">
+                                        <div class="col-md-6 col-item">
+                                            <div class=" search-group">
+                                                <i class="feather-search"></i>
+                                                <input type="text" class="form-control" name="search" placeholder="Search our courses">
+                                                <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="settings-tickets-blk course-instruct-blk table-responsive">
+
+                            <!-- Referred Users-->
+                            <table class="table table-nowrap mb-2">
+                                <thead>
+                                    <tr>
+                                        <th>COURSES</th>
+                                        <th>CATEGORIES</th>
+                                        <th>DETAILS</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var kh in Model)
+                                    {
+                                        <tr>
+                                            @*<td>
+                                                    <div class="sell-table-group d-flex align-items-center">
+                                                        <div class="sell-group-img">
+                                                            <a href="course-details.html">
+                                                                <img src="assets/img/course/course-10.jpg" class="img-fluid " alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="sell-tabel-info">
+                                                            @kh.name
+                                                            <div class="course-info d-flex align-items-center border-bottom-0 pb-0">
+                                                                <div class="rating-img d-flex align-items-center">
+                                                                    <img src="~/Scripts/assets/img/icon/icon-01.svg" alt="">
+                                                                    <p></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>@kh.Price</td>
+                                                <td>
+                                                    @Html.ActionLink("Details","")
+                                                </td>*@
+                                            <td>
+                                                <div class="sell-table-group d-flex align-items-center">
+                                                    <div class="sell-group-img">
+                                                        <a href="#">
+                                                            <img src="@kh.Image" class="img-fluid " alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="sell-tabel-info">
+                                                        @kh.name
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>@kh.Category.ca_name</td>
+                                            <td>@Html.ActionLink("Details", "Khoahocct", "Teacher", routeValues: new { id = kh.kh_id }, htmlAttributes: new { title = "Details" })</td>
+                                            <td>@Html.ActionLink("Edit", "Edit_kh", "Teacher", routeValues: new { id = kh.kh_id }, htmlAttributes: new { title = "Details" })</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- /Referred Users-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Instructor Dashboard -->

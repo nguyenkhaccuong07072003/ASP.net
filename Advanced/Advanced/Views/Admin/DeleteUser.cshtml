@@ -1,0 +1,40 @@
+﻿@model Advanced.Models.UserList
+@{
+    ViewBag.Title = "Trang chủ Admin";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <h1><strong>Are you sure to delete this user ?</strong></h1>
+        @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Post))
+        {
+            <div class="input-block">
+                @Html.LabelFor(m => m.UserId, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="input-block">
+                @Html.LabelFor(m => m.UserName, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="input-block">
+                @Html.LabelFor(m => m.Age, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.Age, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="input-block">
+                @Html.LabelFor(m => m.Email, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="input-block">
+                @Html.LabelFor(m => m.Phonenumber, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.Phonenumber, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="input-block">
+                @Html.LabelFor(m => m.Address, new { @class = "form-control-label" })
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div>
+                <input type="submit" value="Yes" class="btn btn-primary btn-start" />
+            </div>
+        }
+    </div>
+</section>

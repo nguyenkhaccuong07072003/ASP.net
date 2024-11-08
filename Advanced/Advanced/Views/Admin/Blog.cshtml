@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Advanced.Models.Post_Post>
+@{
+    ViewBag.Title = "YourPost";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<!-- Instructor Dashboard -->
+<div class="col-xl-9 col-lg-8 col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="settings-widget">
+                <div class="settings-inner-blk p-0">
+                    <div class="sell-course-head comman-space">
+                        <h3>Pending Blog</h3>
+                    </div>
+                    <div class="comman-space pb-0">
+                        <div class="instruct-search-blk">
+                            <div class="show-filter choose-search-blk">
+                                <form action="#">
+                                    <div class="row gx-2 align-items-center">
+                                        <div class="col-md-6 col-item">
+                                            <div class=" search-group">
+                                                <i class="feather-search"></i>
+                                                <input type="text" class="form-control" placeholder="Search our classes">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="settings-tickets-blk course-instruct-blk table-responsive">
+                            <table class="table table-nowrap mb-2">
+                                <thead>
+                                    <tr>
+                                        <th>TITLE</th>
+                                        <th>DATE</th>
+                                        <th>DETAILS</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var post in Model)
+                                    {
+                                        <tr>
+                                            @*<td>
+                                                    <div class="sell-table-group d-flex align-items-center">
+                                                        <div class="sell-group-img">
+                                                            <a href="course-details.html">
+                                                                <img src="assets/img/course/course-10.jpg" class="img-fluid " alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="sell-tabel-info">
+                                                            <p><a href="course-details.html">@lop.name</a></p>
+                                                            <div class="course-info d-flex align-items-center border-bottom-0 pb-0">
+                                                                <div class="rating-img d-flex align-items-center">
+                                                                    <img src="assets/img/icon/icon-01.svg" alt="">
+                                                                    <p>10+ Lesson</p>
+                                                                </div>
+                                                                <div class="course-view d-flex align-items-center">
+                                                                    <img src="assets/img/icon/timer-start.svg" alt="">
+                                                                    <p>7hr 20min</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>3200</td>
+                                                <td><span class="badge info-low">Live</span></td>*@
+                                            <td>@post.Title</td>
+                                            <td>@post.DateCreated</td>
+                                            <td>@Html.ActionLink("Details", "Blog_dt", "Admin", routeValues: new { id = post.Id }, htmlAttributes: new { title = "Detail" })</td>
+                                            <td>@post.Status</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- /Referred Users-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Instructor Dashboard -->

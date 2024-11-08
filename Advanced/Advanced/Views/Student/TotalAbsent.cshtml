@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Advanced.Models.RollOut>
+@{
+    ViewBag.Title = "TotalAbsent";
+    Layout = "~/Views/Shared/Separated.cshtml";
+    var groupedByClass = Model.GroupBy(item => item.Lophoc.class_name);
+}
+
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <h2>Total Absent</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Class name</td>
+                    <td>Absence Details</td>
+                    <td>Total Absence</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in groupedByClass)
+                {
+                    <tr>
+                        <td>@item.Key</td> 
+                        <td>
+                            <ul>
+                                @foreach (var record in item)
+                                {
+                                    <li>
+                                        @record.date
+                                    </li>
+                                    <li>
+                                        @record.day
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>@item.Count(r => r.excuted == true)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

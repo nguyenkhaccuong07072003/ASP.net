@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Advanced.Models.Post_Post>
+@{
+    ViewBag.Title = "Recent Blog";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+<!-- Course -->
+<section class="course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+
+                <!-- Blog Post -->
+                @foreach (var item in Model)
+                {
+                    <div class="blog">
+                        <div class="blog-image">
+                            <a href="blog-details.html"><img class="img-fluid" src="@item.Image" alt="Post Image"></a>
+                        </div>
+                        <div class="blog-info clearfix">
+                            <div class="post-left">
+                                <ul>
+                                    <li>
+                                        <div class="post-author">
+                                            <a href="#"><img src="@item.ApplicationUser.Image" alt="Post Author"> <span>@item.ApplicationUser.Fullname</span></a>
+                                        </div>
+                                    </li>
+                                    <li><img class="img-fluid" src="~/Scripts/assets/img/icon/icon-22.svg" alt="">@item.DateCreated</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h3 class="blog-title"><a href="blog-details.html">@item.Title</a></h3>
+                        <div class="blog-content blog-read">
+                            <p></p>
+                            @Html.ActionLink("Read More", "Blog_dt", "Home", routeValues: new { id = item.Id }, htmlAttributes: new { @class = "read-more btn btn-primary", title = "Detail" })
+                        </div>
+                    </div>
+                }
+                <!-- /Blog Post -->
+                <!-- Blog pagination -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="pagination lms-page">
+                            <li class="page-item prev">
+                                <a class="page-link" href="javascript:void(0);" tabindex="-1"><i class="fas fa-angle-left"></i></a>
+                            </li>
+                            <li class="page-item first-page active">
+                                <a class="page-link" href="javascript:void(0);">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0);">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0);">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0);">4</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0);">5</a>
+                            </li>
+                            <li class="page-item next">
+                                <a class="page-link" href="javascript:void(0);"><i class="fas fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Blog pagination -->
+
+            </div>
+
+            <!-- Blog Sidebar -->
+            <div class="col-lg-3 col-md-12 sidebar-right theiaStickySidebar">
+
+                <!-- Search -->
+                <div class="card search-widget blog-search blog-widget">
+                    <div class="card-body">
+                        <form class="search-form">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search..." class="form-control">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Search -->
+                <!-- Latest Posts -->
+                <div class="card post-widget blog-widget">
+                    <div class="card-header">
+                        <h4 class="card-title">Recent Posts</h4>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var item in ViewBag.post)
+                        {
+                            <ul class="latest-posts">
+                                <li>
+                                    <div class="post-thumb">
+                                        <a href="~/Home/Blog_dt/@item.Id">
+                                            <img class="img-fluid" src="@item.Image" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="post-info">
+                                        <h4>
+                                            <a href="~/Home/Blog_dt/@item.Id">@item.Title</a>
+                                        </h4>
+                                        <p><img class="img-fluid" src="~/Scripts/assets/img/icon/icon-22.svg" alt="">@item.DateCreated</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+                <!-- /Latest Posts -->
+                <!-- Categories -->
+                <div class="card category-widget blog-widget">
+                    <div class="card-header">
+                        <h4 class="card-title">Categories</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="categories">
+                            @foreach (var cate in ViewBag.Category)
+                            {
+                                <li><a href="javascript:void(0);"><i class="fas fa-angle-right"></i>@cate.ca_name</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Categories -->
+            </div>
+            <!-- /Blog Sidebar -->
+
+        </div>
+    </div>
+</section>
+<!-- /Course -->

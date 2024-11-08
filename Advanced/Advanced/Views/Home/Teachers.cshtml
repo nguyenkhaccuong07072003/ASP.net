@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Advanced.Models.UserList>
+@{
+    ViewBag.Title = "Teachers";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<!-- Trending Course -->
+<section class="section trend-course">
+    <div class="container">
+        <div class="section-header aos" data-aos="fade-up">
+            <div class="section-sub-head">
+                <span>What’s New</span>
+                <h2>TRENDING CLASSES</h2>
+            </div>
+            <div class="all-btn all-category d-flex align-items-center">
+                <a href="course-list.html" class="btn btn-primary">All Courses</a>
+            </div>
+        </div>
+        <div class="section-text aos" data-aos="fade-up">
+            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.</p>
+        </div>
+        <div class="owl-carousel trending-course owl-theme aos" data-aos="fade-up">
+            @foreach (var lop in ViewBag.Class)
+            {
+                <div class="course-box trend-box">
+                    <div class="product trend-product">
+                        <div class="product-img">
+                            <a href="#">
+                                <img class="img-fluid" alt="" src="~/Scripts/assets/img/course/course-07.jpg">
+                            </a>
+                            <div class="price">
+                                <h3>@lop.class_name</h3>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="course-group d-flex">
+                                <div class="course-group-img d-flex">
+                                    <a href="#"><img src="~/Scripts/assets/img/user/user.jpg" alt="" class="img-fluid"></a>
+                                    <div class="course-name">
+                                        <h4><a href="#">@lop.ApplicationUser.Fullname</a></h4>
+                                        <p>@lop.ApplicationUser.ShortDesc</p>
+                                    </div>
+                                </div>
+                                <div class="course-share d-flex align-items-center justify-content-center">
+                                    <a href="#"><i class="fa-regular fa-heart"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="title"><a href="#">@lop.content</a></h3>
+                            <div class="rating">
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
+                            </div>
+                            <div class="all-btn all-category d-flex align-items-center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a>View Class</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link header-sign" href="~/Account/Login">Sign in to join our awesome classes</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Feature Instructors -->
+        <div class="feature-instructors">
+            <div class="section-header aos" data-aos="fade-up">
+                <div class="section-sub-head feature-head text-center">
+                    <h2>Featured Instructor</h2>
+                    <div class="section-text aos" data-aos="fade-up">
+                        <p class="mb-0">Check out our awesome teachers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="owl-carousel instructors-course owl-theme aos" data-aos="fade-up">
+                @foreach (var teacher in Model)
+                {
+                    <div class="instructors-widget">
+                        <div class="instructors-img ">
+                            <a href="#">
+                                <img class="img-fluid" alt="" src="~/Scripts/assets/img/user/user7.jpg">
+                            </a>
+                        </div>
+                        <div class="instructors-content text-center">
+                            <h5><a href="#">@teacher.Fullname</a></h5>
+                            <p>@teacher.ShortDesc</p>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>50 Students</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <!-- /Feature Instructors -->
+
+    </div>
+</section>
+<!-- /Trending Course -->

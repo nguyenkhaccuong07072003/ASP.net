@@ -1,0 +1,178 @@
+﻿@model Advanced.Models.RollOutModel
+@{
+    ViewBag.Title = "RollOut";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+<body>
+    <!--Attendance Form Start-->
+    <div class="container mt-5">
+        <h2 class="mb-4">Attendance</h2>
+        <form id="myForm" action="@Url.Action("FetchData", "Teacher")" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <!-- <label for="classSelect">Class</label> -->
+                    <h4>Class</h4>
+
+                    <select id="classSelect" name="classId" class="form-control" onchange="submitForm()">
+                        <option>-- Choose class --</option>
+                        @foreach (var lophoc in Model.Lophoc)
+                        {
+                            <option value="@lophoc.class_id" @(ViewBag.currentClass == lophoc.class_id ? "selected" : "")>
+                                @lophoc.class_name
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <!-- <label for="datePicker">Date</label> -->
+                    <h4>Date</h4>
+                    <select id="dateSelect" class="form-control" name="selectedDate" onchange="submitForm()">
+                        <option value="">Select a date</option>
+                        @if (Model.Lichhoc != null)
+                        {
+                            <option value="@Model.Lichhoc.Ngayhoc1" @(Model.Lichhoc.Ngayhoc1 == ViewBag.selectedDate ? "selected" : "")>@Model.Lichhoc.Ngayhoc1</option>
+                            <option value="@Model.Lichhoc.Ngayhoc2" @(Model.Lichhoc.Ngayhoc2 == ViewBag.selectedDate ? "selected" : "")>@Model.Lichhoc.Ngayhoc2</option>
+                            <option value="@Model.Lichhoc.Ngayhoc3" @(Model.Lichhoc.Ngayhoc3 == ViewBag.selectedDate ? "selected" : "")>@Model.Lichhoc.Ngayhoc3</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="mt-2">
+            <h4>Lecture Content</h4>
+            <textarea class="form-control" rows="3" style="width: 780px;" id="lectureContent"></textarea>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4>Student List</h4>
+            </div>
+            <div>
+                <button type="button" onclick="saveRollout()" id="saveAttendanceBtn" class="btn btn-success">Save</button>
+                <button type="button" id="importBtn" class="btn btn-success" onclick="redirectToListAbsent()">Import</button>
+            </div>
+        </div>
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Name</th>
+                        <th style="text-align: center;">Unexcused</th>
+                        <th style="text-align: center;">Excused</th>
+                    </tr>
+                </thead>
+
+                @foreach (var classmember in Model.ClassMembers)
+                {
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">@classmember.ApplicationUser.UserName</td>
+
+                            <td style="text-align: center;">
+                                <input data-id="@classmember.UserId" type="checkbox" class="unexcused-checkbox" data-status="0">
+                            </td>
+                            <td style="text-align: center;">
+                                <input data-id="@classmember.UserId" type="checkbox" class="excused-checkbox" data-status="1">
+                            </td>
+                        </tr>
+                    </tbody>
+
+                }
+
+            </table>
+        </div>
+    </div>
+    <!--Attendance Form End-->
+</body>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function submitForm() {
+
+        document.getElementById("myForm").submit();
+    }
+
+    var rollouts = [];
+
+    function checkExcuted() {
+        // Lắng nghe sự kiện click trên các checkbox
+        document.querySelectorAll('.excused-checkbox, .unexcused-checkbox').forEach(function (checkbox) {
+
+            var id = checkbox.getAttribute('data-id');
+            var status = parseInt(checkbox.getAttribute('data-status'));
+
+
+
+            // Tạo object mới và thêm vào mảng rollouts nếu checkbox được chọn
+            if (checkbox.checked) {
+
+                var rollout = {
+                    lophoc_id: document.getElementById('classSelect').value,
+                    day: document.getElementById('dateSelect').value,
+                    excuted: status,
+                    UserId: id,
+                    Lec_Content: document.getElementById('lectureContent').value,
+                    lh_id: 1,
+                    total_absent: 1
+                };
+                rollouts.push(rollout);
+            }
+        });
+
+    }
+
+
+
+    //call api them roll out
+    function saveRollout() {
+        if (document.getElementById('lectureContent').value == '') {
+            alert("Please add your Lecture Note");
+            return;
+        }
+        checkExcuted();
+        $.ajax({
+            url: '/Teacher/RollOut',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ rollouts: rollouts }),
+            success: function (response) {
+                if (response.success) {
+                    // Thực hiện các thao tác thành công (nếu cần)
+                    alert('Data sent successfully');
+                } else {
+                    // Xử lý khi có lỗi từ server
+                    alert('Error occurred:', response.error);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error('Error occurred:', error);
+            }
+        });
+    }
+
+
+    // Lắng nghe sự kiện click trên các checkbox
+    document.querySelectorAll('.unexcused-checkbox, .excused-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('click', function () {
+            // Lấy danh sách các checkbox trong cùng một hàng
+            var checkboxesInRow = this.closest('tr').querySelectorAll('input[type="checkbox"]');
+            // Lặp qua danh sách và huỷ chọn các checkbox khác nếu checkbox hiện tại được chọn
+            checkboxesInRow.forEach(function (cb) {
+                if (cb !== checkbox && cb.checked) {
+                    cb.checked = false;
+                }
+            });
+        });
+    });
+
+	// Mới thêm
+    function redirectToListAbsent() {
+        var class_id = document.getElementById('classSelect').value;
+        window.location.href = '/Teacher/ListAbsent?class_id=' + class_id;
+    }
+
+</script>

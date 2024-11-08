@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNet.Identity
+@model Advanced.Models.Khoahoc
+@{
+    ViewBag.Title = "Add your Course";
+    Layout = "~/Views/Shared/Separated.cshtml";
+    var ca = ViewBag.Cate as List<Advanced.Models.Category>;
+}
+<!-- New Course -->
+<section class="page-content course-sec">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="add-course-header">
+                    <h2>Add New Course</h2>
+                    <div class="add-course-btns">
+                        <ul class="nav">
+                            <li>
+                                <a href="~/Teacher/Khoahoc?UserId=@User.Identity.GetUserId()" class="btn btn-black">Back to Course</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <!-- Course Wizard -->
+                    <div class="widget-set">
+                        @using (Html.BeginForm("Tao_kh", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.Hidden("UserId", @Model.UserId)
+                            <div class="input-block">
+                                <label class="add-course-label">Course Title</label>
+                                @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+                            </div>
+                            <div class="input-block">
+                                <label class="add-course-label">Course Image</label>
+                                <div class="col-md-10">
+                                    <input type="file" name="fKhoahoc" class="btn btn-light" />
+                                </div>
+                            </div>
+                            <div class="input-block">
+                                <label class="add-course-label">Course Category</label>
+                                @Html.DropDownListFor(
+                                x => x.category_id,
+                                new SelectList(
+                                   ca,
+                                   nameof(Advanced.Models.Category.ca_id),
+                                   nameof(Advanced.Models.Category.ca_name)
+                                ),
+                                new { @class = "form-control" })
+                            </div>
+                            <div class="input-block">
+                                <p>Cannot find the category you want ? @Html.ActionLink("Add new Category", "NewCategory", "Teacher", htmlAttributes: new { title = "Add Category" })</p>
+                            </div>
+                            <div class="input-block mb-0">
+                                @Html.LabelFor(m => m.Content, new { @class = "add-course-label" })
+                                @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+                            </div>
+                            <div class="input-block mb-0">
+                                @Html.LabelFor(m => m.Price, new { @class = "add-course-label" })
+                                @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-start">Create Course</button>
+                            </div>
+                        }
+                    </div>
+                    <!-- /Course Wizard -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /New Course -->

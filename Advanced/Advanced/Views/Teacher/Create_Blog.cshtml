@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNet.Identity
+@model Advanced.Models.Post_Post
+@{
+    ViewBag.Title = "Create_Blog";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<!-- New Course -->
+<section class="page-content course-sec">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="add-course-header">
+                    <h2>Add New Blog</h2>
+                    <div class="add-course-btns">
+                        <ul class="nav">
+                            <li>
+                                <a href="~/Home/HomeBlog" class="btn btn-black">Back to Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <!-- Course Wizard -->
+                    <div class="widget-set">
+                        @using (Html.BeginForm("Create_Blog", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.Hidden("UserId", Model.UserId)
+                            @Html.Hidden("DateCreated", Model.DateCreated)
+                            @Html.Hidden("Status", Model.Status)
+                            <div class="input-block">
+                                <label class="add-course-label">Blog Title</label>
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                            </div>
+                            <div class="input-block">
+                                <label class="add-course-label">Blog Image</label>
+                                <div class="col-md-10">
+                                    <input type="file" name="fBlog" class="btn btn-light" />
+                                </div>
+                            </div>
+                            <div class="input-block mb-0">
+                                @Html.LabelFor(m => m.Content, new { @class = "add-course-label" })
+                                @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-start">Create Course</button>
+                            </div>
+                        }
+                    </div>
+                    <!-- /Course Wizard -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /New Course -->

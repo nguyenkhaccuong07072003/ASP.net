@@ -1,0 +1,40 @@
+﻿@model Advanced.Models.Lichhoc
+@{
+    ViewBag.Title = "Schedule";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<h2>Add schedule for @ViewBag.Name</h2>
+
+@using (Html.BeginForm("Schedule", "Teacher", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.Hidden("lophoc_id", @Model.lophoc_id)
+    <div>
+        @Html.LabelFor(m => m.Ngayhoc1, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Ngayhoc1, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Tiet_1, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Tiet_1, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Ngayhoc2, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Ngayhoc2, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Tiet_2, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Tiet_2, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Ngayhoc3, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Ngayhoc3, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Tiet_3, htmlAttributes: new { @class = "form-control-label" })
+        @Html.TextBoxFor(m => m.Tiet_3, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+        <input type="submit" value="Thêm lịch học" />
+    </div>
+}

@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNet.Identity
+@model Advanced.Models.ClassDetailViewModel
+@{
+    ViewBag.Title = "Class Details";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="add-course-header">
+                    <h2>Edit your Course</h2>
+                    <div class="add-course-btns">
+                        <ul class="nav">
+                            <li>
+                                <a href="~/Teacher/Lophoc?UserId=@User.Identity.GetUserId()" class="btn btn-black">Back to Classes</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="widget-set">
+                        <p><strong>Class name:</strong> @Model.Lophoc.class_name</p>
+                        <p><strong>Class Description:</strong> @Model.Lophoc.content</p>
+                        <ul class="list-unstyled">
+                            @if (Model.Lichhocs.Any())
+                            {
+                                <li><strong>Class Schedule</strong></li>
+                                foreach (var lichhoc in Model.Lichhocs)
+                                {
+                                    <li>@lichhoc.Ngayhoc1 - @lichhoc.Tiet_1</li>
+                                    <li>@lichhoc.Ngayhoc2 - @lichhoc.Tiet_2</li>
+                                    <li>@lichhoc.Ngayhoc3 - @lichhoc.Tiet_3</li>
+                                }
+                            }
+                            else
+                            {
+                                <li>This class does not have schedule. @Html.ActionLink("Click here to add schedule", "Schedule", "Teacher", routeValues: new { id = Model.Lophoc.class_id }, htmlAttributes: new { title = "Add Schedule" })</li>
+                            }
+                        </ul>
+                        <ul class="list-unstyled">
+                            @if (Model.ClassMembers.Any())
+                            {
+                                <li><strong>List of Students in this Class</strong></li>
+                                foreach (var member in Model.ClassMembers)
+                                {
+                                    <li>@member.ApplicationUser.UserName</li>
+                                }
+                            }
+                            else
+                            {
+                                <li>This class does not have student. Ask your students to join</li>
+                            }
+                        </ul>
+                        @Html.ActionLink("Update your class", "Edit_Lophoc", "Teacher", routeValues: new { id = Model.Lophoc.class_id }, htmlAttributes: new { title = "Update" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

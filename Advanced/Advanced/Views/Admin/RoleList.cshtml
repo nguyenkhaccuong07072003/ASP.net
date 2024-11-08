@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Advanced.Models.RoleViewDto>
+@{
+    ViewBag.Title = "RoleList";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <div>
+            Cannot find role you need ? @Html.ActionLink("Add new role", "AddRole", "Admin", htmlAttributes: new { @class = "control-label col-md-2" })
+        </div>
+        <table class="table">
+            <tr>
+                <th>RoleId</th>
+                <th>Role name</th>
+            </tr>
+            @foreach (var roles in Model)
+            {
+                <tr>
+                    <td>@roles.RoleId</td>
+                    <td>@roles.Name</td>
+                    <td>
+                        @Html.ActionLink("Sửa tên", "UpdateRole", "Admin", routeValues: new { RoleId = roles.RoleId }, htmlAttributes: new { title = "Update" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</section>

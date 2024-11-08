@@ -1,0 +1,31 @@
+﻿@model List<Advanced.Models.ListAbsentModel>
+@{
+    ViewBag.Title = "TotalAbsent";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+<section class="page-content course-sec p-5">
+    <div class="container">
+        @foreach (var item in Model.GroupBy(x => x.class_name))
+        {
+            <h3>@item.Key</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Total Absent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in item)
+                    {
+                        <tr>
+                            <td>@student.user_name</td>
+                            <td>@student.Total</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>

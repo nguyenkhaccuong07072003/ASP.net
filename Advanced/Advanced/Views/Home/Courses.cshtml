@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Advanced.Models.Khoahoc>
+@{
+    ViewBag.Title = "Courses";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<section class="section new-course">
+    <div class="container">
+        <div class="section-header aos" data-aos="fade-up">
+            <div class="section-sub-head">
+                <span>What’s New</span>
+                <h2>Featured Courses</h2>
+            </div>
+            <div class="all-btn all-category d-flex align-items-center">
+                <a href="course-list.html" class="btn btn-primary">All Courses</a>
+            </div>
+        </div>
+        <div class="section-text aos" data-aos="fade-up">
+            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.</p>
+        </div>
+        <div class="course-feature">
+            <div class="row">
+                @foreach (var course in Model)
+                {
+                    <div class="col-lg-4 col-md-6 d-flex">
+                        <div class="course-box d-flex aos" data-aos="fade-up">
+                            <div class="product">
+                                <div class="product-img">
+                                    <a href="~/Teacher/Khoahocct/@course.kh_id">
+                                        <img class="img-fluid" alt="" src="~/Scripts/assets/img/course/course-01.jpg">
+                                    </a>
+                                    <div class="price">
+                                        <h3>@course.Price</h3>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <div class="course-group d-flex">
+                                        <div class="course-group-img d-flex">
+                                            <a href="#"><img src="~/Scripts/assets/img/user/user1.jpg" alt="" class="img-fluid"></a>
+                                            <div class="course-name">
+                                                <h4><a href="#">@course.ApplicationUser.Fullname</a></h4>
+                                                <p>@course.ApplicationUser.ShortDesc</p>
+                                            </div>
+                                        </div>
+                                        <div class="course-share d-flex align-items-center justify-content-center">
+                                            <a href="#"><i class="fa-regular fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                    <h3 class="title instructor-text"><a href="~/Teacher/Khoahocct/@course.kh_id">@course.name</a></h3>
+                                    <div class="course-info d-flex align-items-center">
+                                        <div class="rating-img d-flex align-items-center">
+                                            <img src="~/Scripts/assets/img/icon/icon-01.svg" alt="">
+                                            <p>12+ Lesson</p>
+                                        </div>
+                                        <div class="course-view d-flex align-items-center">
+                                            <img src="~/Scripts/assets/img/icon/icon-02.svg" alt="">
+                                            <p>9hr 30min</p>
+                                        </div>
+                                    </div>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
+                                    </div>
+                                    <div class="all-btn all-category d-flex align-items-center">
+                                        <a href="#" class="btn btn-primary">BUY NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Feature Course -->

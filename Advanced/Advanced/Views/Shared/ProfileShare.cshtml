@@ -1,0 +1,575 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dreamslms.dreamstechnologies.com/html/setting-edit-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Jan 2024 16:52:25 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Dreams LMS</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Scripts/assets/img/favicon.svg">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Scripts/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/Scripts/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/Scripts/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Feather CSS -->
+    <link rel="stylesheet" href="~/Scripts/assets/css/feather.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="~/Scripts/assets/plugins/select2/css/select2.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/Scripts/assets/css/style.css">
+
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <header class="header header-page">
+            <div class="header-fixed">
+                <nav class="navbar navbar-expand-lg header-nav scroll-sticky">
+                    <div class="container ">
+                        <div class="navbar-header">
+                            <a id="mobile_btn" href="javascript:void(0);">
+                                <span class="bar-icon">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </span>
+                            </a>
+                            <a href="index.html" class="navbar-brand logo">
+                                <img src="~/Scripts/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                            </a>
+                        </div>
+                        <div class="main-menu-wrapper">
+                            <div class="menu-header">
+                                <a href="index.html" class="menu-logo">
+                                    <img src="~/Scripts/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                                </a>
+                                <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                            @if (User.IsInRole("Teacher"))
+                            {
+                                <ul class="main-nav">
+                                    <li class="">
+                                        @Html.ActionLink("Home", "Index", "Home")
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Instructor <i class="fas fa-chevron-down"></i></a>
+                                        <ul class="submenu">
+                                            <li>@Html.ActionLink("Dashboard", "Dashboard", "Teacher")</li>
+                                            <li></li>
+                                            <li class="has-submenu">
+                                                <a href="#">My classes</a>
+                                                <ul class="submenu">
+                                                    <li>@Html.ActionLink("All Classes", "Lophoc", "Teacher", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Class" })</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Setting up <i class="fas fa-chevron-down"></i></a>
+                                        <ul class="submenu first-submenu">
+                                            <li>@Html.ActionLink("My Courses", "Khoahoc", "Teacher", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Course" })</li>
+                                            <li>@Html.ActionLink("My Blogs", "YourPost", "Teacher", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Blog" })</li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="~/Teacher/RollOut">Check-in <i class="fas fa-chevron-down"></i></a>
+                                    </li>
+                                </ul>
+                            }
+                            else if (User.IsInRole("Student"))
+                            {
+                                <ul class="main-nav">
+                                    <li class="has-submenu active">
+                                        @Html.ActionLink("Home", "Index", "Home")
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Your classes<i class="fas fa-chevron-down"></i></a>
+                                        <ul class="submenu">
+                                            <li>@Html.ActionLink("All Classes", "ListClass", "Student")</li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Your Courses<i class="fas fa-chevron-down"></i></a>
+                                        <ul class="submenu first-submenu">
+                                            <li class="has-submenu ">
+                                                @Html.ActionLink("All Courses", "ListCourses", "Student")
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Your check-in", "TotalAbsent", "Student", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "View your check-in" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Blog", "HomeBlog", "Home")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("History Purchase", "MyCourse", "Student")
+                                    </li>
+                                </ul>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <ul class="main-nav">
+                                    <li class="has-submenu active">
+                                        <a href="Index">Home</a>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">List <i class="fas fa-chevron-down"></i></a>
+                                        <ul class="submenu">
+                                            <li>@Html.ActionLink("Users", "List", "Admin")</li>
+                                            <li>@Html.ActionLink("Roles", "RoleList", "Admin")</li>
+                                        </ul>
+                                    </li>
+                                    <li>@Html.ActionLink("Pending Blogs", "Blog", "Admin")</li>
+                                    <li>@Html.ActionLink("Purchased Courses", "HistoryPurchase", "Admin")</li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="main-nav">
+                                    <li class="has-submenu active">
+                                        @Html.ActionLink("Home", "Index", "Home")
+                                    </li>
+                                    <li class="has-submenu">
+                                        @Html.ActionLink("Current Courses", "Courses", "Home")
+                                    </li>
+                                    <li class="has-submenu">
+                                        @Html.ActionLink("Current Teachers", "Teachers", "Home")
+                                    </li>
+                                    <li class="has-submenu">
+                                        @Html.ActionLink("Blog", "HomeBlog", "Home")
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                        @using Microsoft.AspNet.Identity
+                        @if (Request.IsAuthenticated)
+                        {
+                            <ul class="nav header-navbar-rht">
+                                <li class="nav-item">
+                                    <a href="instructor-chat.html"><img src="~/Scripts/assets/img/icon/messages.svg" alt="img"></a>
+                                </li>
+                                <li class="nav-item cart-nav">
+                                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                        <img src="~/Scripts/assets/img/icon/cart.svg" alt="img">
+                                    </a>
+                                    <div class="wishes-list dropdown-menu dropdown-menu-right">
+                                        <div class="wish-header">
+                                            <a href="#">View Cart</a>
+                                            <a href="javascript:void(0)" class="float-end">Checkout</a>
+                                        </div>
+                                        <div class="wish-content">
+                                            <ul>
+                                                <li>
+                                                    <div class="media">
+                                                        <div class="d-flex media-wide">
+                                                            <div class="avatar">
+                                                                <a href="course-details.html">
+                                                                    <img alt="" src="~/Scripts/assets/img/course/course-15.jpg">
+                                                                </a>
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <h6><a href="course-details.html">C# Developers Double ...</a></h6>
+                                                                <p>Jesse Stevens</p>
+                                                                <h5>$200 <span>$99.00</span></h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="remove-btn">
+                                                            <a href="#" class="btn">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="total-item">
+                                                <h6>Subtotal : $ 600</h6>
+                                                <h5>Total : $ 600</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item wish-nav">
+                                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                        <img src="~/Scripts/assets/img/icon/wish.svg" alt="img">
+                                    </a>
+                                    <div class="wishes-list dropdown-menu dropdown-menu-right">
+                                        <div class="wish-content">
+                                            <ul>
+                                                <li>
+                                                    <div class="media">
+                                                        <div class="d-flex media-wide">
+                                                            <div class="avatar">
+                                                                <a href="course-details.html">
+                                                                    <img alt="" src="~/Scripts/assets/img/course/course-15.jpg">
+                                                                </a>
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <h6><a href="course-details.html">C# Developers Double ...</a></h6>
+                                                                <p>Jesse Stevens</p>
+                                                                <h5>$200 <span>$99.00</span></h5>
+                                                                <div class="remove-btn">
+                                                                    <a href="#" class="btn">Remove</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item noti-nav">
+                                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                        <img src="~/Scripts/assets/img/icon/notification.svg" alt="img">
+                                    </a>
+                                    <div class="notifications dropdown-menu dropdown-menu-right">
+                                        <div class="topnav-dropdown-header">
+                                            <span class="notification-title">
+                                                Notifications
+                                                <select>
+                                                    <option>All</option>
+                                                    <option>Unread</option>
+                                                </select>
+                                            </span>
+                                            <a href="javascript:void(0)" class="clear-noti">Mark all as read <i class="fa-solid fa-circle-check"></i></a>
+                                        </div>
+                                        <div class="noti-content">
+                                            <ul class="notification-list">
+                                                <li class="notification-message">
+                                                    <div class="media d-flex">
+                                                        <div>
+                                                            <a href="notifications.html" class="avatar">
+                                                                <img class="avatar-img" alt="" src="~/Scripts/assets/img/user/user1.jpg">
+                                                            </a>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <h6><a href="notifications.html">John Hammond <span>created</span> Isla Nublar SOC2 compliance report </a></h6>
+                                                            <p>Last Wednesday at 11:15 AM</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item user-nav">
+                                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                        <span class="user-img">
+                                            <img src="~/Scripts/assets/img/instructor/profile-avatar.jpg" alt="">
+                                            <span class="status online"></span>
+                                        </span>
+                                    </a>
+                                    <div class="users dropdown-menu dropdown-menu-right" data-popper-placement="bottom-end">
+                                        <div class="user-header">
+                                            <div class="avatar avatar-sm">
+                                                <img src="~/Scripts/assets/img/instructor/profile-avatar.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                            </div>
+                                            <div class="user-text">
+                                                <h6>@User.Identity.GetUserName()</h6>
+                                                <p class="text-muted mb-0">
+                                                    @if (User.IsInRole("Teacher"))
+                                                    {
+                                                    <p>Teacher</p>
+                                                }
+                                                else if (User.IsInRole("Student"))
+                                                {
+                                                    <p>Student</p>
+                                                }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p class="dropdown-item"><i class="feather-home me-1"></i>@Html.ActionLink("Dashboard", "Index", "Home")</p>
+                                            <p class="dropdown-item"><i class="feather-star me-1"></i>@Html.ActionLink("Edit Profile", "UpdateUser", "Home", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Update" })</p>
+                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="feather-log-out me-1"></i>Logout</a>
+                                            }
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="nav header-navbar-rht header-navbar-five">
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Sign in", "Login", "Account", new { @class = "login-five" })
+                                        @*<a class="login-five" href="login.html">Login</a>*@
+                                    </li>
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Sign up", "AddUser", "Home", new { @class = "signup-five" })
+                                        @*<a class="signup-five" href="register.html">Signup</a>*@
+                                    </li>
+                                </ul>
+                            }
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- /Header -->
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <!-- sidebar -->
+                    <div class="col-xl-3 col-md-4 theiaStickySidebar">
+                        <div class="settings-widget dash-profile mb-3">
+                            <div class="settings-menu p-0">
+                                <div class="profile-bg">
+                                    <h5>Beginner</h5>
+                                    <img src="~/Scripts/assets/img/profile-bg.jpg" alt="">
+                                    <div class="profile-img">
+                                        <a href="#"><img src="~/Scripts/assets/img/user/user11.jpg" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="profile-group">
+                                    <div class="profile-name text-center">
+                                        <h4><a href="student-profile.html">@User.Identity.Name</a></h4>
+                                        <p>Student</p>
+                                    </div>
+                                    <div class="go-dashboard text-center">
+                                        <a href="#" class="btn btn-primary">Go to Dashboard</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-widget account-settings">
+                            <div class="settings-menu">
+                                <h3>ACCOUNT SETTINGS</h3>
+                                <ul>
+                                    <li class="nav-item active">
+                                        <a href="UpdateUser" class="nav-link">
+                                            <i class="feather-settings"></i> Edit Profile
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <i class="feather-user"></i> @Html.ActionLink("Change Email", "Security", "Home", routeValues: new { UserId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Change Email" })
+                                    </li>
+                                    <li class="nav-item">
+                                        <i class="feather-user"></i> @Html.ActionLink("Change Password", "Index", "Manage")
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-social-profile.html" class="nav-link">
+                                            <i class="feather-refresh-cw"></i> Social Profiles
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-notification.html" class="nav-link">
+                                            <i class="feather-bell"></i> Notifications
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-privacy.html" class="nav-link">
+                                            <i class="feather-lock"></i> Profile Privacy
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-delete-profile.html" class="nav-link">
+                                            <i class="feather-trash-2"></i> Delete Profile
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-accounts.html" class="nav-link">
+                                            <i class="feather-user"></i> Linked Accounts
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-referral.html" class="nav-link">
+                                            <i class="feather-user-plus"></i> Referrals
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="login.html" class="nav-link">
+                                            <i class="feather-power"></i> Sign Out
+                                        </a>
+                                    </li>
+                                </ul>
+                                <h3>SUBSCRIPTION</h3>
+                                <ul>
+                                    <li class="nav-item">
+                                        <a href="setting-student-subscription.html" class="nav-link ">
+                                            <i class="feather-calendar"></i> My Subscriptions
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-billing.html" class="nav-link">
+                                            <i class="feather-credit-card"></i> Billing Info
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-payment.html" class="nav-link">
+                                            <i class="feather-credit-card"></i> Payment
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="setting-student-invoice.html" class="nav-link">
+                                            <i class="feather-clipboard"></i> Invoice
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /sidebar -->
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="~/Scripts/assets/img/logo.svg" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris</p>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Instructor</h2>
+                                <ul>
+                                    <li><a href="instructor-profile.html">Profile</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="instructor-list.html">Instructor</a></li>
+                                    <li><a href="deposit-instructor-dashboard.html"> Dashboard</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Student</h2>
+                                <ul>
+                                    <li><a href="student-profile.html">Profile</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="students-list.html">Student</a></li>
+                                    <li><a href="deposit-student-dashboard.html"> Dashboard</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">News letter</h2>
+                                <div class="news-letter">
+                                    <form>
+                                        <input type="text" class="form-control" placeholder="Enter your email address" name="email">
+                                    </form>
+                                </div>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <img src="~/Scripts/assets/img/icon/icon-20.svg" alt="" class="img-fluid">
+                                        <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                    </div>
+                                    <p>
+                                        <img src="~/Scripts/assets/img/icon/icon-19.svg" alt="" class="img-fluid">
+                                        <a href="https://dreamslms.dreamstechnologies.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7511071014180619180635100d14180519105b161a18">[email&#160;protected]</a>
+                                    </p>
+                                    <p class="mb-0">
+                                        <img src="~/Scripts/assets/img/icon/icon-21.svg" alt="" class="img-fluid">
+                                        +19 123-456-7890
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /Footer Top -->
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+
+                    <!-- Copyright -->
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="privacy-policy">
+                                    <ul>
+                                        <li><a href="term-condition.html">Terms</a></li>
+                                        <li><a href="privacy-policy.html">Privacy</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="copyright-text">
+                                    <p class="mb-0">&copy; 2023 DreamsLMS. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Copyright -->
+
+                </div>
+            </div>
+            <!-- /Footer Bottom -->
+
+        </footer>
+        <!-- /Footer -->
+
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/Scripts/assets/js/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/Scripts/assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="~/Scripts/assets/plugins/select2/js/select2.min.js"></script>
+
+    <!-- Feature JS -->
+    <script src="~/Scripts/assets/plugins/feather/feather.min.js"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="~/Scripts/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="~/Scripts/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/Scripts/assets/js/script.js"></script>
+
+</body>
+
+<!-- Mirrored from dreamslms.dreamstechnologies.com/html/setting-edit-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Jan 2024 16:52:26 GMT -->
+</html>

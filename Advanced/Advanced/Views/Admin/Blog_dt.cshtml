@@ -1,0 +1,131 @@
+﻿@model Advanced.Models.Post_Post
+@{
+    ViewBag.Title = "Blog_dt";
+    Layout = "~/Views/Shared/Blog.cshtml";
+}
+<!-- Blog Details -->
+<section class="course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+
+                <!-- Blog Post -->
+                <div class="blog">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.UserId)
+                    <div class="blog-image">
+                        <h1>View Post Content to approve or not</h1>
+                    </div>
+                    <div class="blog-info clearfix">
+                        <div class="post-left">
+                            <ul>
+                                <li>
+                                    <div class="post-author">
+                                        <span>@Model.ApplicationUser.Fullname</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(m => m.DateCreated, new { @class = "border: none" })
+                                </li>
+                            </ul>
+                            <div class="blog-title">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "border: none" })
+                            </div>
+                            <div class="blog-content">
+                                @Html.TextBoxFor(m => m.Content, new { @class = "border: none" })
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        @if (Model.Status == Advanced.Models.Post_Post.PostStatus.Pending)
+                        {
+                            <p>The blog is waiting for your review</p>
+                            <button onclick="submitForm('@Url.Action("Public", "Admin", new { id = Model.Id })')">Approve</button>
+                            <button onclick="submitForm('@Url.Action("Deny", "Admin", new { id = Model.Id })')">Deny</button>
+                        }
+                        else if (Model.Status == Advanced.Models.Post_Post.PostStatus.Approved)
+                        {
+                            <p>This post has been aprroved</p>
+                        }
+                        else if (Model.Status == Advanced.Models.Post_Post.PostStatus.Denied)
+                        {
+                            <p>This post has been denied</p>
+                        }
+                    </div>
+                </div>
+                <!-- /Blog Post -->
+                <!--Comment Section-->
+
+            </div>
+
+            <!-- Blog Sidebar -->
+            <div class="col-lg-3 col-md-12 sidebar-right theiaStickySidebar">
+
+                <!-- Search -->
+                <div class="card search-widget blog-search blog-widget">
+                    <div class="card-body">
+                        <form class="search-form">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search..." class="form-control">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Search -->
+                <!-- Latest Posts -->
+                <div class="card post-widget blog-widget">
+                    <div class="card-header">
+                        <h4 class="card-title">Posts need Approval</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="latest-posts">
+                            @foreach (var post in ViewBag.Pending)
+                            {
+                                <li>
+                                    <div class="post-thumb">
+                                        <a href="~/Admin/Blog_dt/@post.Id">
+                                            <img class="img-fluid" src="~/Scripts/assets/img/blog/blog-01.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="post-info">
+                                        <h4>
+                                            <a href="~/Admin/Blog_dt/@post.Id">@post.Title</a>
+                                        </h4>
+                                        <p><img class="img-fluid" src="~/Scripts/assets/img/icon/icon-22.svg" alt="">@post.DateCreated</p>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Latest Posts -->
+                <!-- Categories -->
+                <div class="card category-widget blog-widget">
+                    <div class="card-header">
+                        <h4 class="card-title">Categories</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="categories">
+                            @foreach (var cate in ViewBag.Category)
+                            {
+                                <li><a href="javascript:void(0);"><i class="fas fa-angle-right"></i>@cate.ca_name</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Categories -->
+            </div>
+            <!-- /Blog Sidebar -->
+
+        </div>
+    </div>
+</section>
+<!-- /Blog Details -->
+<script>
+    function submitForm(url) {
+        var form = $('<form action="' + url + '" method="post"></form>');
+        $('body').append(form);
+        form.submit();
+    }
+</script>

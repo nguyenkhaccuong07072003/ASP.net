@@ -1,0 +1,49 @@
+﻿@model Advanced.Models.ChangeEmail
+@{
+    ViewBag.Title = "Security";
+    if (User.IsInRole("Student"))
+    {
+        Layout = "~/Views/Shared/ProfileShare.cshtml";
+    }
+    else if (User.IsInRole("Teacher"))
+    {
+        Layout = "~/Views/Shared/TeacherSideBar.cshtml";
+    }
+}
+<!-- Student Security -->
+<div class="col-xl-9 col-md-8">
+    <div class="settings-widget profile-details">
+        <div class="settings-menu p-0">
+            <div class="profile-heading">
+                <h3>Security</h3>
+                <p>Edit your account settings here.</p>
+            </div>
+            <div class="checkout-form personal-address border-line">
+                <div class="personal-info-head">
+                    <h4>Email Address</h4>
+                    <p>Your current email address is <span>@ViewBag.Email</span></p>
+                </div>
+                @using (Html.BeginForm("Security", "Home", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.Hidden("UserId", @Model.UserId)
+                    <div class="new-address">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-block">
+                                    @Html.LabelFor(m => m.Email, new { @class = "form-control-label" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="">
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Student Security -->

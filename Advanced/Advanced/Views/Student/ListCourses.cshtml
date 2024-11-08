@@ -1,0 +1,181 @@
+﻿@model List<Advanced.Models.Khoahoc>
+@{
+    ViewBag.Title = "ListCourse";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<section class="course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+
+                <!-- Filter -->
+                <div class="showing-list">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <div class="view-icons">
+                                    <a href="#" class="grid-view"><i class="feather-grid"></i></a>
+                                    <a href="#" class="list-view active"><i class="feather-list"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="show-filter add-course-info ">
+                                <form action="@Url.Action("ListCourses", "Student")" method="get">
+                                    <div class="row gx-2 align-items-center">
+                                        <div class="col-md-6 col-item">
+                                            <div class=" search-group">
+                                                <i class="feather-search"></i>
+                                                <input type="text" class="form-control" name="search" placeholder="Search our courses">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Filter -->
+
+                <div class="row">
+                    @foreach (var course in Model)
+                    {
+                        <div class="col-lg-12 col-md-12 d-flex">
+                            <div class="course-box course-design list-course d-flex">
+                                <div class="product">
+                                    <div class="product-img">
+                                        <a href="~/Teacher/Khoahocct/@course.kh_id">
+                                            <img class="img-fluid" alt="" src="@course.Image">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="head-course-title">
+                                            <h3 class="title"><a href="~/Teacher/Khoahocct/@course.kh_id">@course.name</a></h3>
+                                            <div class="all-btn all-category d-flex align-items-center">
+                                                <a href="~/Payment/Onepay/@course.kh_id" class="btn btn-primary">Checkout</a>
+                                            </div>
+                                        </div>
+                                        <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
+                                            <div class="rating-img d-flex align-items-center">
+                                                <img src="~/Scripts/assets/img/icon/icon-01.svg" alt="">
+                                                <p>@course.Category.ca_name</p>
+                                            </div>
+                                        </div>
+                                        <div class="course-group d-flex mb-0">
+                                            <div class="course-group-img d-flex">
+                                                <a href="#"><img src="@course.ApplicationUser.Image" alt="" class="img-fluid"></a>
+                                                <div class="course-name">
+                                                    <h4><a href="#">@course.ApplicationUser.Fullname</a></h4>
+                                                    <p>@course.ApplicationUser.ShortDesc</p>
+                                                </div>
+                                            </div>
+                                            <div class="course-share d-flex align-items-center justify-content-center">
+                                                <a href="#rate"><i class="fa-regular fa-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- /pagination -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="pagination lms-page">
+                            <li class="page-item prev">
+                                <a class="page-link" href="javascript:void(0)" tabindex="-1"><i class="fas fa-angle-left"></i></a>
+                            </li>
+                            <li class="page-item first-page active">
+                                <a class="page-link" href="javascript:void(0)">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">4</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">5</a>
+                            </li>
+                            <li class="page-item next">
+                                <a class="page-link" href="javascript:void(0)"><i class="fas fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /pagination -->
+
+            </div>
+            <div class="col-lg-3 theiaStickySidebar">
+                <div class="filter-clear">
+                    <div class="clear-filter d-flex align-items-center">
+                        <h4><i class="feather-filter"></i>Filters</h4>
+                        <div class="clear-text">
+                            <p>CLEAR</p>
+                        </div>
+                    </div>
+                    <!-- Search Filter -->
+                    <div class="card search-filter">
+                        <div class="card-body">
+                            <div class="filter-widget mb-0">
+                                <div class="categories-head d-flex align-items-center">
+                                    <h4>Instructors</h4>
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                @foreach (var teacher in ViewBag.Teacher)
+                                {
+                                    <div>
+                                        <label class="custom_check">
+                                            <input type="checkbox" name="id" value="@teacher.UserId">
+                                            <span class="checkmark"></span>@teacher.Fullname
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Search Filter -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Course -->
+<script>
+    $(document).ready(function () {
+        $(".join-button").click(function (e) {
+            e.preventDefault(); //
+            var lophocId = $(this).data("lophoc-id");
+            $.ajax({
+                type: 'POST',
+                url: "/Student/JoinClass",
+                data: { lophoc_id: lophocId },
+                dataType: "json",
+                success: function (success, mess) {
+                    alert(mess)
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    // Xử lý lỗi ở đây
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('input[type="checkbox"]').on('change', function () {
+            var id = $(this).val();
+            if ($(this).is(':checked')) {
+                $.get('/Student/ListClass', { id: id }, function (data) {
+                    // Xử lý dữ liệu trả về từ server ở đây
+                });
+            }
+        });
+    });
+</script>

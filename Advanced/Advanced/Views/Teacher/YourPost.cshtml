@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Advanced.Models.Post_Post>
+@{
+    ViewBag.Title = "YourPost";
+    Layout = "~/Views/Shared/TeacherSideBar.cshtml";
+}
+<!-- Instructor Dashboard -->
+<div class="col-xl-9 col-lg-8 col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="settings-widget">
+                <div class="settings-inner-blk p-0">
+                    <div class="sell-course-head comman-space">
+                        <h3>Your Blog</h3>
+                    </div>
+                    <div class="comman-space pb-0">
+                        <div class="instruct-search-blk">
+                            <div class="show-filter choose-search-blk">
+                                <form action="@Url.Action("YourPost", "Teacher")" method="get">
+                                    <div class="row gx-2 align-items-center">
+                                        <div class="col-md-6 col-item">
+                                            <div class=" search-group">
+                                                <i class="feather-search"></i>
+                                                <input type="text" class="form-control" name="search" placeholder="Search your blog">
+                                                <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="settings-tickets-blk course-instruct-blk table-responsive">
+                            <table class="table table-nowrap mb-2">
+                                <thead>
+                                    <tr>
+                                        <th>TITLE</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var post in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="sell-table-group d-flex align-items-center">
+                                                    <div class="sell-group-img">
+                                                        <a href="~/Home/Blog_dt/@post.Id">
+                                                            <img src="@post.Image" class="img-fluid " alt="@post.Title">
+                                                        </a>
+                                                    </div>
+                                                    <div class="sell-tabel-info">
+                                                        <p><a href="~/Home/Blog_dt/@post.Id">@post.Title</a></p>
+                                                        <div class="course-info d-flex align-items-center border-bottom-0 pb-0">
+                                                            <div class="course-view d-flex align-items-center">
+                                                                <img src="~/Scripts/assets/img/icon/timer-start.svg" alt="">
+                                                                <p>@post.DateCreated</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge info-low">@post.Status</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- /Referred Users-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Instructor Dashboard -->

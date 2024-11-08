@@ -1,0 +1,35 @@
+﻿@model List<Advanced.Models.MyCourseViewModel>
+@{
+    ViewBag.Title = "HistoryPurchase";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <h2>History Purchase</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Amount</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NgayMua.ToString("dd/MM/yyyy")</td>
+                        <td>@item.TongTien.ToString("N0")</td>
+                        <td>@item.User</td>
+                        <td>@item.TrangThai</td>
+                        <td>@item.KhoaHocName</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

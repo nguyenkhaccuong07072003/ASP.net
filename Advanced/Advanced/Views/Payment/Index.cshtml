@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <!--breadcrumbs area start-->
+        <div class="breadcrumbs_area">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="@Url.Action("ListCourses", "Student")">Back to List Courses</a></li>
+                            <li><i class="fa fa-angle-right"></i></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        {
+            <div class="alert alert-success alert-dismissible">
+                @ViewBag.SuccessMessage
+                <button type="button" class="close btn-close" data-dismiss="alert" aria-label="Close">
+                </button>
+            </div>}
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessageBuy))
+        {
+            <div class="alert alert-danger alert-dismissible">
+                @ViewBag.ErrorMessageBuy
+                <button type="button" class="close btn-close" data-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        }
+    </div>
+</section>

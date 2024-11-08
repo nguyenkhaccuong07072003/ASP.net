@@ -1,0 +1,31 @@
+﻿@model List<Advanced.Models.MyCourseViewModel>
+@{
+    ViewBag.Title = "MyCourse";
+    Layout = "~/Views/Shared/Separated.cshtml";
+}
+
+
+<section class="page-content course-sec p-5">
+    <div class="container">
+        <h2>My Course</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Amount</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NgayMua.ToString("dd/MM/yyyy")</td> <!-- Định dạng ngày theo kiểu bạn muốn -->
+                        <td>@item.TongTien.ToString("N0")</td>
+                        <td>@item.KhoaHocName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
